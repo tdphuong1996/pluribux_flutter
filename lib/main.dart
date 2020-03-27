@@ -11,9 +11,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Personal Expenes',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
+        accentColor: Colors.amber,
+        fontFamily: 'Quicksand',
+        appBarTheme: AppBarTheme(
+            textTheme: ThemeData.light().textTheme.copyWith(
+                title: TextStyle(
+                    fontFamily: 'Opensans',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold))),
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -42,8 +50,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   final List<Transaction> trans = [
-    Transaction('t1', 'New Shoes', 69.99, DateTime.now()),
-    Transaction('t2', 'Weekly Grocries', 16.99, DateTime.now()),
+//    Transaction('t1', 'New Shoes', 69.99, DateTime.now()),
+//    Transaction('t2', 'Weekly Grocries', 16.99, DateTime.now()),
   ];
 
   void addNewTrans(String title, String amount) {
@@ -56,7 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
