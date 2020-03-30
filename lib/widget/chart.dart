@@ -1,6 +1,9 @@
+import 'dart:wasm';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pluribux/model/transaction.dart';
+import 'package:pluribux/widget/chart_bar.dart';
 
 class Chart extends StatelessWidget {
   final List<Transaction> recentTransactions;
@@ -18,7 +21,16 @@ class Chart extends StatelessWidget {
           totalSum += recentTransactions[i].amount;
         }
       }
-      return {'day': DateFormat.E(week), 'amount': totalSum};
+      return {
+        'day': DateFormat.E().format(week).substring(0, 1),
+        'amount': totalSum
+      };
+    });
+  }
+
+  double get totalSpending {
+    return groupTransactionValues.fold(0.0, (sum, item) {
+      return sum + item['amount'];
     });
   }
 
@@ -28,8 +40,21 @@ class Chart extends StatelessWidget {
       child: Card(
         elevation: 6,
         margin: EdgeInsets.all(20),
-        child: Row(
-          children: <Widget>[],
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: groupTransactionValues.map((data) {
+                return Flexible(
+                  fit: FlexFit.tight,
+                  child: ChartBar(
+                      data['day'],
+                      data['amount'],
+                      totalSpending == 0.0
+                          ? 0.0
+                          : (data['amount'] as double) / totalSpending),
+                );
+              }).toList()),
         ),
       ),
     );

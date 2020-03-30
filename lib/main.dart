@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pluribux/widget/chart.dart';
 import 'package:pluribux/widget/new_transaction.dart';
 import 'package:pluribux/widget/transaction_list.dart';
 
@@ -50,9 +51,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   final List<Transaction> trans = [
-//    Transaction('t1', 'New Shoes', 69.99, DateTime.now()),
-//    Transaction('t2', 'Weekly Grocries', 16.99, DateTime.now()),
+    Transaction('t1', 'New Shoes', 69.99, DateTime.now()),
+    Transaction('t2', 'Weekly Grocries', 16.99, DateTime.now()),
   ];
+
+  List<Transaction> get recentTransactions {
+    return trans.where((element) {
+      return element.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
 
   void addNewTrans(String title, String amount) {
     final newTx = Transaction(
@@ -77,17 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue,
-                child: Text('CHART'),
-                elevation: 5,
-              ),
-            ),
-            TransactionList(trans)
-          ],
+          children: <Widget>[Chart(trans), TransactionList(trans)],
         ),
       ),
       floatingActionButton: FloatingActionButton(
